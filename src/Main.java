@@ -19,24 +19,27 @@ public class Main {
 
         // 2ª Parte - Solucionador (Solver)
         for (int i = 1; i <= 3; i++) {
+            attempts = 0; // Reseta o contador para cada sudoku
             Integer[][][] sudoku = SudokuSource.getUnsolvedMatrix(i);
+            
+            System.out.println("Resolvendo Sudoku #" + i + "...");
 
             if (resolver(sudoku, 0, 0, 0)) {
                 System.out.println("Tentativas: " + attempts);
 
                 if (Validator.validateSudoku(sudoku)) {
                     System.out.println("Solucao valida!");
-                    for (int b = 0; b < 9; b++) {
-                        for (int l = 0; l < 3; l++) {
-                            for (int c = 0; c < 3; c++) {
-                                System.out.print(sudoku[b][l][c] + " ");
-                            }
-                            System.out.print("  ");
+
+                    for (int linGlobal = 0; linGlobal < 9; linGlobal++) {
+                        for (int colGlobal = 0; colGlobal < 9; colGlobal++) {
+                            int blocoIndex = (linGlobal / 3) * 3 + (colGlobal / 3);
+                            int linhaBloco = linGlobal % 3;
+                            int colunaBloco = colGlobal % 3;
+                            System.out.print(sudoku[blocoIndex][linhaBloco][colunaBloco] + " ");
+                            if (colGlobal % 3 == 2) System.out.print("  ");
                         }
                         System.out.println();
-                        if (b % 3 == 2) {
-                            System.out.println();
-                        }
+                        if (linGlobal % 3 == 2) System.out.println();
                     }
                 }
             } else {
